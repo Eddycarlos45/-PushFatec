@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -19,12 +18,10 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.example.edson.pushfatecadmin.BuildConfig;
-import com.example.edson.pushfatecadmin.MainActivity;
-import com.example.edson.pushfatecadmin.MensagemActivity;
-import com.example.edson.pushfatecadmin.MenuActivity;
+import com.example.edson.pushfatecadmin.Adapter.AdapterMensagens;
+import com.example.edson.pushfatecadmin.Activity.MainActivity;
+import com.example.edson.pushfatecadmin.Activity.MensagemActivity;
 import com.example.edson.pushfatecadmin.R;
-import com.example.edson.pushfatecadmin.SendActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -48,9 +45,9 @@ public class FirebaseService extends FirebaseMessagingService {
             String urlimagem = notificacao.getData().get("urlimagem");
 
 
-            String mensagem = msg+ " -- "+ nome + " -- "+ urlimagem;
+           // String mensagem = msg+ " De: "+ nome;
 
-            sendNotification_2(titulo,mensagem, urlimagem);
+            sendNotification_2(titulo,msg, urlimagem,nome);
 
 
         }
@@ -118,7 +115,7 @@ public class FirebaseService extends FirebaseMessagingService {
 
 
 
-    private void sendNotification_2(final String titulo, final String msg, final String url){
+    private void sendNotification_2(final String titulo, final String msg, final String url, final String nome){
 
 
         final int id = (int) (System.currentTimeMillis() / 1000);
@@ -169,11 +166,14 @@ public class FirebaseService extends FirebaseMessagingService {
 
 
 
-
+                //Passando dados para o RecyclerView
                 Intent intent = new Intent(getBaseContext(), MensagemActivity.class);
 
                 intent.putExtra("url",url);
                 intent.putExtra("mensagem",msg);
+                intent.putExtra("titulo",titulo);
+                intent.putExtra("autor",nome);
+
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
