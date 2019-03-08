@@ -47,6 +47,9 @@ public class MensagemActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapterMensagens);
+
+        //Evento de click na lista
+
     }
 
     public void criarMensagens(){

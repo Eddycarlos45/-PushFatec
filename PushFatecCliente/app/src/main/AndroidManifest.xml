@@ -39,7 +39,7 @@
         <activity android:name=".Activity.MensagemActivity" />
         <activity
             android:name=".Activity.MenuActivity"
-            android:label="@string/title_activity_menu"
+            android:label="PushFatec"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

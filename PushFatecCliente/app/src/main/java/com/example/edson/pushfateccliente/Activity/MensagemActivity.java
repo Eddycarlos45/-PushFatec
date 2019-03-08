@@ -48,9 +48,9 @@ public class MensagemActivity extends AppCompatActivity {
         Cursor myCursor = myDB.rawQuery("select autor, mensagem, titulo from mensagens", null);
 
         while (myCursor.moveToNext()) {
-            String autor_db = myCursor.getString(0);
-            String mensagem_db = myCursor.getString(1);
-            String titulo_db = myCursor.getString(2);
+            String autor_db = "De: " + myCursor.getString(0);
+            String mensagem_db = "Mensagem: " + myCursor.getString(1);
+            String titulo_db = "Título: "+myCursor.getString(2);
 
             Mensagem mensagem = new Mensagem(autor_db, mensagem_db, titulo_db);
             this.listaMensagem.add(mensagem);
