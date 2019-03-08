@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B92B27"
-    tools:context=".Activity.LoginActivity">
+    tools:context=".LoginActivity">
 
     <TextView
         android:id="@+id/loginHeading"
@@ -13,9 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="92dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="100dp"
         android:gravity="center"
-        android:text="@string/bem_vindo_ao_push_fatec"
+        android:text="Bem vindo ao Push Fatec"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp" />
@@ -31,7 +33,7 @@
         android:layout_marginTop="100dp"
         android:background="@drawable/input_background"
         android:ems="10"
-        android:hint="@string/email"
+        android:hint="Email..."
         android:inputType="textEmailAddress"
         android:paddingBottom="15dp"
         android:paddingLeft="25dp"
@@ -49,7 +51,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/input_background"
         android:ems="10"
-        android:hint="@string/senha"
+        android:hint="Senha..."
         android:inputType="textPassword"
         android:paddingBottom="15dp"
         android:paddingLeft="25dp"
@@ -67,7 +69,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/input_background"
-        android:text="@string/login"
+        android:text="Login"
         android:textAllCaps="false"
         android:textSize="16sp" />
 
@@ -81,7 +83,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/border_button"
-        android:text="@string/ainda_n_o_tem_uma_conta"
+        android:text="Ainda não tem uma conta?"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="16sp" />

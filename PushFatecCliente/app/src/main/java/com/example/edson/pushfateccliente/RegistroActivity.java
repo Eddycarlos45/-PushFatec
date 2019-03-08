@@ -1,9 +1,9 @@
-package com.example.edson.pushfatecadmin.Activity;
+package com.example.edson.pushfateccliente;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.edson.pushfatecadmin.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -80,7 +79,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
                                 userMap.put("token_id", token_id);
                                 userMap.put("curso",curso);
 
-                                mFirestore.collection("Documents").document("Users").set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                mFirestore.collection("Users").document(user_id).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(getApplicationContext(),"Conta criada com sucesso!",Toast.LENGTH_LONG).show();
@@ -103,7 +102,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         });
     }
     private void sendToSend(){
-        Intent intent = new Intent(RegistroActivity.this,SendActivity.class);
+        Intent intent = new Intent(RegistroActivity.this,MainActivity.class);
         startActivity(intent);
         finish();
 

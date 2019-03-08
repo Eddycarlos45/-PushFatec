@@ -40,8 +40,6 @@ public class FirebaseService extends FirebaseMessagingService {
             String msg = notificacao.getData().get("mensagem");
             String titulo = notificacao.getData().get("titulo");
             String nome = notificacao.getData().get("nome");
-
-
             String urlimagem = notificacao.getData().get("urlimagem");
 
 

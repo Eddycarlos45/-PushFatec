@@ -31,7 +31,6 @@ public class MensagemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mensagem);
 
 
-
         recyclerView = findViewById(R.id.recyclerMensagens);
 
         //Lista de Mensagens
@@ -47,28 +46,25 @@ public class MensagemActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapterMensagens);
-
-        //Evento de click na lista
-
     }
 
-    public void criarMensagens(){
+    public void criarMensagens() {
         SQLiteDatabase myDB = openOrCreateDatabase("mensagens.db", MODE_PRIVATE, null);
 
         Cursor myCursor = myDB.rawQuery("select autor, mensagem, titulo from mensagens", null);
 
-        while(myCursor.moveToNext()) {
-            String autor_db = myCursor.getString(0);
-            String mensagem_db = myCursor.getString(1);
-            String titulo_db = myCursor.getString(2);
+        while (myCursor.moveToNext()) {
+            String autor_db = "De: " + myCursor.getString(0);
+            String mensagem_db = "Mensagem: " + myCursor.getString(1);
+            String titulo_db = "Título: "+myCursor.getString(2);
 
-            Mensagem mensagem = new Mensagem(autor_db,mensagem_db,titulo_db);
+            Mensagem mensagem = new Mensagem(autor_db, mensagem_db, titulo_db);
             this.listaMensagem.add(mensagem);
 
-            myCursor.close();
-            myDB.close();
-        }
 
+        }
+        myCursor.close();
+        myDB.close();
 
 
     }

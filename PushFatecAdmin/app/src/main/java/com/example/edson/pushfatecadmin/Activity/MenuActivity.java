@@ -31,13 +31,6 @@ public class MenuActivity extends AppCompatActivity
     private FirebaseFirestore mFirestore;
     private String topico;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        recuperarTopico();
-
-    }
 
     @Override
 
@@ -49,6 +42,8 @@ public class MenuActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mFirestore = FirebaseFirestore.getInstance();
+
+        recuperarTopico();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -127,7 +122,7 @@ public class MenuActivity extends AppCompatActivity
 
     //Recupera e inscreve o usuario no topico escolhido
     private void recuperarTopico() {
-        DocumentReference docRef = mFirestore.collection("Users").document("tiKRxlK14TXVsTjjCuJJexGb7Nn2");
+        DocumentReference docRef = mFirestore.collection("Documents").document("Users");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -137,7 +132,6 @@ public class MenuActivity extends AppCompatActivity
                         topico = document.getData().get("curso").toString();
 
                         FirebaseMessaging.getInstance().subscribeToTopic(topico);
-
 
                     } else {
                         Log.d("----------------------", "No such document");

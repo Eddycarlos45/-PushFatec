@@ -1,28 +1,4 @@
 <resources>
     <string name="app_name">PushFatecCliente</string>
-    <string name="enviando_para_os_alunos_do_curso_de">Enviando para os Alunos do Curso de...</string>
-    <string name="digite_a_notifica_o">Digite a Notificação</string>
-    <string name="enviar_notifica_o">Enviar Notificação</string>
-    <string name="title_activity_menu">MenuActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="aguarde">Aguarde</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="bem_vindo_ao_push_fatec">Bem vindo ao Push Fatec</string>
-    <string name="email">Email...</string>
-    <string name="senha">Senha...</string>
-    <string name="login">Login</string>
-    <string name="ainda_n_o_tem_uma_conta">Ainda não tem uma conta?</string>
-    <string name="registre_se">Registre-se</string>
-    <string name="nome">Nome...</string>
-    <string name="criar_conta">Criar Conta</string>
-    <string name="voltar_ao_login">Voltar ao Login</string>
-    <string name="titulo">titulo</string>
-    <string name="Título">Título</string>
-    <string name="title_activity_mensagem">MensagemActivity</string>
-    <string name="textview">TextView</string>
 </resources>

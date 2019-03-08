@@ -3,6 +3,7 @@ package com.example.edson.pushfatecadmin.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,11 +55,6 @@ public class SendActivity extends AppCompatActivity {
     private String autor;
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        recuperarNome();
-    }
 
     @Override
 
@@ -73,6 +69,8 @@ public class SendActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         titulo_edt = findViewById(R.id.titulo_view);
         spinner = findViewById(R.id.spinner_curso);
+
+        recuperarNome();
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +95,7 @@ public class SendActivity extends AppCompatActivity {
 
 
     private void recuperarNome() {
-        DocumentReference docRef = mFirestore.collection("Users").document("tiKRxlK14TXVsTjjCuJJexGb7Nn2");
+        DocumentReference docRef = mFirestore.collection("Documents").document("Users");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -107,10 +105,10 @@ public class SendActivity extends AppCompatActivity {
                         autor = document.getData().get("nome").toString();
 
                     } else {
-                        Log.d("----------------------", "No such document");
+                        Log.d("-----", "No such document");
                     }
                 } else {
-                    Log.d("++++++++++++++++++++", "get failed with ", task.getException());
+                    Log.d("-----", "get failed with ", task.getException());
                 }
             }
         });
@@ -130,7 +128,7 @@ public class SendActivity extends AppCompatActivity {
             notificacao.put("to", "/topics/" + spinner.getSelectedItem().toString());
             dados.put("mensagem", mensagem);
             dados.put("titulo", titulo);
-            dados.put("nome", "Edson Carlos");
+            dados.put("nome", autor);
             dados.put("urlimagem", "https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_1490630196/firebase.png");
 
             notificacao.put("data", dados);
@@ -187,7 +185,7 @@ public class SendActivity extends AppCompatActivity {
 
         ContentValues row1 = new ContentValues();
         row1.put("autor",autor );
-        row1.put("mensagem", mensagem_edt.getText().length());
+        row1.put("mensagem", mensagem_edt.getText().toString());
         row1.put("titulo", titulo_edt.getText().toString());
 
         myDB.insert("mensagens", null, row1);

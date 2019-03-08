@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B92B27"
-    tools:context=".Activity.RegistroActivity">
+    tools:context=".RegistroActivity">
 
     <TextView
         android:id="@+id/ResgisterHeading"
@@ -17,7 +17,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/registre_se"
+        android:text="Registre-se"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp" />
@@ -34,7 +34,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/input_background"
         android:ems="10"
-        android:hint="@string/nome"
+        android:hint="Nome..."
         android:inputType="textEmailAddress"
         android:paddingBottom="15dp"
         android:paddingLeft="25dp"
@@ -53,7 +53,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/input_background"
         android:ems="10"
-        android:hint="@string/email"
+        android:hint="Email..."
         android:inputType="textEmailAddress"
         android:paddingBottom="15dp"
         android:paddingLeft="25dp"
@@ -71,7 +71,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/input_background"
         android:ems="10"
-        android:hint="@string/senha"
+        android:hint="Senha..."
         android:inputType="textPassword"
         android:paddingBottom="15dp"
         android:paddingLeft="25dp"
@@ -106,7 +106,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/input_background"
-        android:text="@string/criar_conta"
+        android:text="Criar Conta"
         android:textAllCaps="false"
         android:textSize="16sp" />
 
@@ -120,7 +120,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="35dp"
         android:background="@drawable/input_background"
-        android:text="@string/voltar_ao_login"
+        android:text="Voltar ao Login"
         android:textAllCaps="false"
         android:textSize="16sp" />
 
