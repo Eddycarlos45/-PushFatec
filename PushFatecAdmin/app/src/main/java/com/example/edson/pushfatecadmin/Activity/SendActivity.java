@@ -70,6 +70,7 @@ public class SendActivity extends AppCompatActivity {
         titulo_edt = findViewById(R.id.titulo_view);
         spinner = findViewById(R.id.spinner_curso);
 
+        //deleteDatabase("mensagens.db");
         recuperarNome();
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
@@ -181,15 +182,28 @@ public class SendActivity extends AppCompatActivity {
 
         SQLiteDatabase myDB = openOrCreateDatabase("mensagens.db", MODE_PRIVATE, null);
 
-        myDB.execSQL("CREATE TABLE IF NOT EXISTS mensagens (autor VARCHAR(50), mensagem VARCHAR(1000), titulo VARCHAR(100))");
+        myDB.execSQL("CREATE TABLE IF NOT EXISTS mensagens (" +
+                "idmensagem INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "autor VARCHAR(50)," +
+                "mensagem VARCHAR(1000)," +
+                "titulo VARCHAR(100))");
+
+
 
         ContentValues row1 = new ContentValues();
-        row1.put("autor",autor );
+
+        row1.put("autor", autor);
         row1.put("mensagem", mensagem_edt.getText().toString());
         row1.put("titulo", titulo_edt.getText().toString());
+        // row1.put("horario", data_completa);
 
         myDB.insert("mensagens", null, row1);
 
+        myDB.close();
+
 
     }
-}
+
+
+    }
+
