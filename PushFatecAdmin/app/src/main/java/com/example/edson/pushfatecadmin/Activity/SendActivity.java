@@ -40,6 +40,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.json.JSONObject;
 
 import java.lang.ref.ReferenceQueue;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +56,8 @@ public class SendActivity extends AppCompatActivity {
     private EditText titulo_edt;
     private Spinner spinner;
     private String autor;
+    private  String data_completa;
+    private String  hora_atual;
 
 
 
@@ -70,8 +75,9 @@ public class SendActivity extends AppCompatActivity {
         titulo_edt = findViewById(R.id.titulo_view);
         spinner = findViewById(R.id.spinner_curso);
 
-        //deleteDatabase("mensagens.db");
+        deleteDatabase("mensagens.db");
         recuperarNome();
+        capturarHorario();
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +192,8 @@ public class SendActivity extends AppCompatActivity {
                 "idmensagem INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "autor VARCHAR(50)," +
                 "mensagem VARCHAR(1000)," +
-                "titulo VARCHAR(100))");
+                "titulo VARCHAR(100)," +
+                "horario VARCHAR(30))");
 
 
 
@@ -195,11 +202,28 @@ public class SendActivity extends AppCompatActivity {
         row1.put("autor", autor);
         row1.put("mensagem", mensagem_edt.getText().toString());
         row1.put("titulo", titulo_edt.getText().toString());
-        // row1.put("horario", data_completa);
+        row1.put("horario", data_completa);
 
         myDB.insert("mensagens", null, row1);
 
         myDB.close();
+
+
+    }
+    public void capturarHorario(){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
+        SimpleDateFormat dateFormat_hora = new SimpleDateFormat("HH:mm:ss");
+
+        Date data = new Date();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(data);
+        Date data_atual = cal.getTime();
+
+        data_completa = dateFormat.format(data_atual);
+
+        hora_atual  = dateFormat_hora.format(data_atual);
 
 
     }

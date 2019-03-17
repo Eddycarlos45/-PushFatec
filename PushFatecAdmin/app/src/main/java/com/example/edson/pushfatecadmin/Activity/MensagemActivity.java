@@ -114,9 +114,9 @@ public class MensagemActivity extends AppCompatActivity {
             String autor_db = "De: " + myCursor.getString(1);
             String mensagem_db = "Mensagem: " + myCursor.getString(2);
             String titulo_db = "Título: " + myCursor.getString(3);
-            //  String horario_db = myCursor.getString(4);
+            String horario_db = myCursor.getString(4);
 
-            Mensagem mensagem = new Mensagem(id_db, autor_db, mensagem_db, titulo_db);
+            Mensagem mensagem = new Mensagem(id_db, autor_db, mensagem_db, titulo_db,horario_db);
             this.listaMensagem.add(mensagem);
 
         }
