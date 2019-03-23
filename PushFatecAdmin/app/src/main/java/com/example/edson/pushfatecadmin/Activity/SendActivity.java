@@ -75,7 +75,7 @@ public class SendActivity extends AppCompatActivity {
         titulo_edt = findViewById(R.id.titulo_view);
         spinner = findViewById(R.id.spinner_curso);
 
-        deleteDatabase("mensagens.db");
+       //deleteDatabase("mensagens.db");
         recuperarNome();
         capturarHorario();
 

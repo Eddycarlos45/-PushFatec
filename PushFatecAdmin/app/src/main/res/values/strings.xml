@@ -24,9 +24,14 @@
     <string name="titulo">titulo</string>
     <string name="Título">Título</string>
     <string name="title_activity_mensagem">MensagemActivity</string>
-    <string name="textview">TextView</string>
+    <string name="TEST">TextView</string>
     <string name="Titulo">Titulo</string>
     <string name="horario">Horario</string>
     <string name="autor">Autor</string>
     <string name="mensagem">Mensagem</string>
+    <string name="confirme_a_senha">Confirme a senha</string>
+    <string name="textview">TextView</string>
+    <string name="imagem">Imagem</string>
+    <string name="Test">Text</string>
+    <string name="todo">todo</string>
 </resources>

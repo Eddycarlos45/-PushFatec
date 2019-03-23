@@ -2,8 +2,9 @@
 <resources>
 
     <string-array name="cursos_array">
-        <item>ADS</item>
-        <item>Projetos Mecanicos</item>
+        <item>ADSManha</item>
+        <item>ADSNoite</item>
+        <item>ProjetosMecanicos</item>
         <item>Mecatronica</item>
     </string-array>
 

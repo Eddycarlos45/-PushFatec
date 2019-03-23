@@ -1,10 +1,13 @@
 package com.example.edson.pushfatecadmin.Activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,9 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.TextView;
 
+import com.example.edson.pushfatecadmin.Adapter.AdapterPostagens;
+import com.example.edson.pushfatecadmin.Model.Postagem;
 import com.example.edson.pushfatecadmin.R;
+import com.example.edson.pushfatecadmin.Util.RecyclerItemClickListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,11 +32,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseFirestore mFirestore;
     private String topico;
+    private RecyclerView recyclerPostagem;
+    public List<Postagem> postagens = new ArrayList<>();
+
+
+
 
 
     @Override
@@ -42,6 +57,9 @@ public class MenuActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mFirestore = FirebaseFirestore.getInstance();
+        recyclerPostagem = findViewById(R.id.recyclerPostagem);
+
+
 
         recuperarTopico();
 
@@ -63,7 +81,55 @@ public class MenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //CardView
+
+        //Evento de Click
+        recyclerPostagem.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getApplicationContext(),
+                        recyclerPostagem,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
+
+
+        //Define Layout
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerPostagem.setLayoutManager(layoutManager);
+        //Define Adapter
+        this.prepararPostagens();
+
+
+        AdapterPostagens adapter = new AdapterPostagens(postagens);
+
+        recyclerPostagem.setAdapter(adapter);
     }
+
+    public void prepararPostagens() {
+
+        Postagem p = new Postagem("Nome", R.drawable.download);
+        this.postagens.add(p);
+
+        p = new Postagem("Nome", R.drawable.download);
+        this.postagens.add(p);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -142,4 +208,9 @@ public class MenuActivity extends AppCompatActivity
             }
         });
     }
+
+
+
+
+
 }

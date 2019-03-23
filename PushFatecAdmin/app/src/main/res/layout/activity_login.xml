@@ -18,7 +18,8 @@
         android:text="@string/bem_vindo_ao_push_fatec"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/login_email"

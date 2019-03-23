@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.edson.pushfatecadmin.R;
@@ -36,6 +37,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
     private FirebaseFirestore mFirestore;
     Spinner spinner_curso;
     private String curso = "";
+    private EditText confSenhaedt;
 
 
     @Override
@@ -47,10 +49,10 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         senhaedt = findViewById(R.id.register_password);
         nomeedt = findViewById(R.id.register_name);
         registrobtn = findViewById(R.id.register_btn);
-        loginbtn = findViewById(R.id.backtologin_btn);
         spinner_curso = findViewById(R.id.spinner_curso);
+        confSenhaedt = findViewById(R.id.confirn_password);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cursos_array,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cursos_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_curso.setAdapter(adapter);
         spinner_curso.setOnItemSelectedListener(this);
@@ -66,8 +68,10 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
                 String email = emailedt.getText().toString();
                 String senha = senhaedt.getText().toString();
                 curso = String.valueOf(spinner_curso.getSelectedItem());
+                String confSenha = confSenhaedt.getText().toString();
 
-                if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(senha) && !TextUtils.isEmpty(curso)){
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(senha) && !TextUtils.isEmpty(curso) && !TextUtils.isEmpty(confSenha) && senha.equals(confSenha) ) {
+
                     mAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull final Task<AuthResult> task) {
@@ -78,12 +82,12 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
                                 Map<String, Object> userMap = new HashMap<>();
                                 userMap.put("nome", name);
                                 userMap.put("token_id", token_id);
-                                userMap.put("curso",curso);
+                                userMap.put("curso", curso);
 
                                 mFirestore.collection("Documents").document("Users").set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(getApplicationContext(),"Conta criada com sucesso!",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Conta criada com sucesso!", Toast.LENGTH_LONG).show();
                                         sendToSend();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -98,12 +102,15 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
                             }
                         }
                     });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Preencha todos os campos ou confira sua senha", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
-    private void sendToSend(){
-        Intent intent = new Intent(RegistroActivity.this,SendActivity.class);
+
+    private void sendToSend() {
+        Intent intent = new Intent(RegistroActivity.this, SendActivity.class);
         startActivity(intent);
         finish();
 

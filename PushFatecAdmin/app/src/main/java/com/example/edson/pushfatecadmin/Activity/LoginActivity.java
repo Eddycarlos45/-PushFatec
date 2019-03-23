@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
 
+
     @Override
     protected void onStart() {
         super.onStart();

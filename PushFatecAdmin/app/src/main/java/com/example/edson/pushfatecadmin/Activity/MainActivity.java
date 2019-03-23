@@ -11,23 +11,33 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        private FirebaseAuth mAuth;
+
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        verificaUsuario();
+    }
 
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+        verificaUsuario();
+    }
+
+    public void verificaUsuario(){
         if (currentUser == null) {
             sendToLogin();
         }else{
             sendToMenu();
         }
     }
-
     private void sendToMenu () {
         Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(menuIntent);
@@ -38,12 +48,5 @@ public class MainActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(loginIntent);
         finish();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mAuth = FirebaseAuth.getInstance();
     }
 }
