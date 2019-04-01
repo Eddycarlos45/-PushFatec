@@ -30,8 +30,7 @@ public class AdapterPostagens extends RecyclerView.Adapter<AdapterPostagens.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Postagem postagem = postagens.get(position);
-        holder.nome.setText(postagem.getNome());
+        Postagem postagem = postagens.get(position);;
         holder.imagem.setImageResource(postagem.getImagem());
 
 
@@ -43,7 +42,7 @@ public class AdapterPostagens extends RecyclerView.Adapter<AdapterPostagens.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView nome;
+      ;
         private ImageView imagem;
 
 
@@ -52,7 +51,7 @@ public class AdapterPostagens extends RecyclerView.Adapter<AdapterPostagens.MyVi
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            nome = itemView.findViewById(R.id.textNome);
+
             imagem = itemView.findViewById(R.id.imageView);
         }
 

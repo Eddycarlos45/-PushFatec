@@ -2,6 +2,7 @@ package com.example.edson.pushfatecadmin.Activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
 import android.support.annotation.NonNull;
@@ -67,6 +68,9 @@ public class SendActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
+
+        //Definir orientação como portrait
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mensagem_edt = findViewById(R.id.message_view);
         btnEnviar = findViewById(R.id.send_btn);

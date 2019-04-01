@@ -6,8 +6,8 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Bem Vindo!</string>
+    <string name="nav_header_subtitle">Push Fatec</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="aguarde">Aguarde</string>
@@ -34,4 +34,8 @@
     <string name="imagem">Imagem</string>
     <string name="Test">Text</string>
     <string name="todo">todo</string>
+    <string name="Enviar">Enviar</string>
+    <string name="Selecionar">Selecionar imagem</string>
+    <string name="descricao_da_imagem">Descricão da imagem</string>
+    <string name="Imagem">TODO</string>
 </resources>

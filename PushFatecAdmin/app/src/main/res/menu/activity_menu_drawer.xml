@@ -5,17 +5,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_mensagem"
+            android:id="@+id/nav_enviar"
             android:icon="@drawable/ic_menu_send"
-            android:title="Mensagem" />
+            android:title="Nova Mensagem" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_mensagem"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Mensagens" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_postagem"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Postagens" />
     </group>
 
 </menu>

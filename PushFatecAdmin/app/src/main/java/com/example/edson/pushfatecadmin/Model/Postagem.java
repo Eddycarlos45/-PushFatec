@@ -2,23 +2,15 @@ package com.example.edson.pushfatecadmin.Model;
 
 public class Postagem {
 
-    private String nome;
+
     private int imagem;
 
     public Postagem() {
     }
 
-    public Postagem(String nome, int imagem) {
-        this.nome = nome;
+    public Postagem( int imagem) {
+
         this.imagem = imagem;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public int getImagem() {

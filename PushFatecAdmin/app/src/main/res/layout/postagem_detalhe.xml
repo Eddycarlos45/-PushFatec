@@ -14,15 +14,6 @@
         android:orientation="vertical">
 
 
-
-        <TextView
-            android:id="@+id/textNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/nome"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -30,6 +21,12 @@
             android:contentDescription="@string/todo"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_launcher_background" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
 
     </LinearLayout>

@@ -26,12 +26,19 @@ import com.example.edson.pushfatecadmin.Model.Postagem;
 import com.example.edson.pushfatecadmin.R;
 import com.example.edson.pushfatecadmin.Util.RecyclerItemClickListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +49,8 @@ public class MenuActivity extends AppCompatActivity
     private String topico;
     private RecyclerView recyclerPostagem;
     public List<Postagem> postagens = new ArrayList<>();
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
 
 
@@ -53,10 +62,17 @@ public class MenuActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        //Definir orientação como portrait
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mFirestore = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
         recyclerPostagem = findViewById(R.id.recyclerPostagem);
 
 
@@ -68,8 +84,8 @@ public class MenuActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intentMensagem = new Intent(MenuActivity.this,SendActivity.class);
+                startActivity(intentMensagem);
             }
         });
 
@@ -82,7 +98,7 @@ public class MenuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //CardView
+
 
         //Evento de Click
         recyclerPostagem.addOnItemTouchListener(
@@ -122,11 +138,11 @@ public class MenuActivity extends AppCompatActivity
     }
 
     public void prepararPostagens() {
-
-        Postagem p = new Postagem("Nome", R.drawable.download);
+        
+        Postagem p = new Postagem( R.drawable.download);
         this.postagens.add(p);
 
-        p = new Postagem("Nome", R.drawable.download);
+        p = new Postagem(R.drawable.download);
         this.postagens.add(p);
     }
 
@@ -169,15 +185,18 @@ public class MenuActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_mensagem) {
+        if (id == R.id.nav_enviar) {
             Intent intentSend = new Intent(MenuActivity.this, SendActivity.class);
             startActivity(intentSend);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_mensagem) {
             Intent intentMensagem = new Intent(MenuActivity.this, MensagemActivity.class);
             startActivity(intentMensagem);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_postagem ) {
+            Intent intentPostagem = new Intent(MenuActivity.this, PostagemActivity.class);
+            startActivity(intentPostagem);
+
 
         }
 
