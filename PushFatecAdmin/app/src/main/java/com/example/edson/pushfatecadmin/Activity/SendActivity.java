@@ -57,8 +57,7 @@ public class SendActivity extends AppCompatActivity {
     private EditText titulo_edt;
     private Spinner spinner;
     private String autor;
-    private  String data_completa;
-    private String  hora_atual;
+
 
 
 
@@ -81,7 +80,7 @@ public class SendActivity extends AppCompatActivity {
 
        //deleteDatabase("mensagens.db");
         recuperarNome();
-        capturarHorario();
+
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +93,6 @@ public class SendActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(mensagem) && !TextUtils.isEmpty(titulo) && !TextUtils.isEmpty(curso)) {
                     iniciarNotificacao();
-                    salvarMensagem();
                 } else {
                     Toast.makeText(getApplicationContext(), "Preencher todos os campos", Toast.LENGTH_LONG).show();
                 }
@@ -106,7 +104,8 @@ public class SendActivity extends AppCompatActivity {
 
 
     private void recuperarNome() {
-        DocumentReference docRef = mFirestore.collection("Documents").document("Users");
+        final String user_id = mAuth.getCurrentUser().getUid();
+        DocumentReference docRef = mFirestore.collection("Users").document(user_id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -187,50 +186,6 @@ public class SendActivity extends AppCompatActivity {
 
     }
 
-    public void salvarMensagem() {
-
-
-        SQLiteDatabase myDB = openOrCreateDatabase("mensagens.db", MODE_PRIVATE, null);
-
-        myDB.execSQL("CREATE TABLE IF NOT EXISTS mensagens (" +
-                "idmensagem INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "autor VARCHAR(50)," +
-                "mensagem VARCHAR(1000)," +
-                "titulo VARCHAR(100)," +
-                "horario VARCHAR(30))");
-
-
-
-        ContentValues row1 = new ContentValues();
-
-        row1.put("autor", autor);
-        row1.put("mensagem", mensagem_edt.getText().toString());
-        row1.put("titulo", titulo_edt.getText().toString());
-        row1.put("horario", data_completa);
-
-        myDB.insert("mensagens", null, row1);
-
-        myDB.close();
-
-
-    }
-    public void capturarHorario(){
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
-        SimpleDateFormat dateFormat_hora = new SimpleDateFormat("HH:mm:ss");
-
-        Date data = new Date();
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(data);
-        Date data_atual = cal.getTime();
-
-        data_completa = dateFormat.format(data_atual);
-
-        hora_atual  = dateFormat_hora.format(data_atual);
-
-
-    }
 
 
     }

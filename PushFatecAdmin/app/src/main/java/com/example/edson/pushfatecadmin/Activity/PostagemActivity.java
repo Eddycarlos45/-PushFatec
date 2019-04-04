@@ -1,33 +1,37 @@
 package com.example.edson.pushfatecadmin.Activity;
 
-import android.app.ProgressDialog;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.edson.pushfatecadmin.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class PostagemActivity extends AppCompatActivity {
 
@@ -36,10 +40,13 @@ public class PostagemActivity extends AppCompatActivity {
     private Button enviarbtn;
     private final int Selecao_galeria = 100;
     private ImageView imagemview;
+    private String Urldownload;
+    private String caminhoImagem;
 
-    FirebaseStorage storage;
-    StorageReference storageReference;
-    FirebaseAuth mAuth;
+    private FirebaseFirestore mFirestore;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +56,16 @@ public class PostagemActivity extends AppCompatActivity {
         //Definir orientação como portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //Gerar um caminho para imagem
+        Random random = new Random();
+        caminhoImagem = "local" + random.nextInt(100000) + ".jpeg";
+
         imagemview = findViewById(R.id.imageView2);
         selecionarbtn = findViewById(R.id.selecionar_imagem_btn);
         enviarbtn = findViewById(R.id.salvar_imagem_btn);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
 
 
         selecionarbtn.setOnClickListener(new View.OnClickListener() {
@@ -67,21 +78,17 @@ public class PostagemActivity extends AppCompatActivity {
         enviarbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                enviarImagem();
-
+                salvarImagem();
             }
         });
-    }
-
-    private void enviarImagem() {
-        salvarImagem();
-
     }
 
 
     private void selecionarImagem() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
         //Caso não exista uma galeria de fotos
+
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, Selecao_galeria);
         }
@@ -99,7 +106,6 @@ public class PostagemActivity extends AppCompatActivity {
                 imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagem);
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
             if (imagem != null) {
                 imagemview.setImageBitmap(imagem);
@@ -113,23 +119,64 @@ public class PostagemActivity extends AppCompatActivity {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imagem.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-        byte[] dadosImagem = baos.toByteArray();
+        final byte[] dadosImagem = baos.toByteArray();
 
-        StorageReference imagemRef = storageReference
+
+        final StorageReference imagemRef = storageReference
                 .child("imagem")
                 .child("postagens")
-                .child("postagens.jpeg");
+                .child(caminhoImagem);
 
-        UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
+
+        final UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Erro ao fazer upload da imagem", Toast.LENGTH_LONG).show();
+
             }
+
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(getApplicationContext(), "Sucesso ao fazer upload da imagem", Toast.LENGTH_LONG).show();
+                recuperarUrl();
+            }
+        });
+    }
+
+    private void recuperarUrl() {
+        final Task<Uri> ref = storageReference.child("imagem/postagens/" + caminhoImagem)
+                .getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        Urldownload = task.getResult().toString();
+                        Log.d("XXXXXXXXXX", Urldownload);
+                        salvarUrl(Urldownload);
+                    }
+                });
+
+
+    }
+
+    private void salvarUrl(String urldownload) {
+
+
+        Map<String, String> postagens = new HashMap<>();
+        postagens.put("UrlPostagem", Urldownload);
+        Toast.makeText(getApplicationContext(), Urldownload, Toast.LENGTH_SHORT).show();
+
+        mFirestore.collection("Postagens").document(caminhoImagem).set(postagens)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d("-------", "Sucesso");
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Erro: ", e.getMessage());
             }
         });
     }

@@ -2,6 +2,8 @@ package com.example.edson.pushfatecadmin.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,7 +22,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.example.edson.pushfatecadmin.Adapter.AdapterPostagens;
 import com.example.edson.pushfatecadmin.Model.Postagem;
 import com.example.edson.pushfatecadmin.R;
@@ -29,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +58,8 @@ public class MenuActivity extends AppCompatActivity
     public List<Postagem> postagens = new ArrayList<>();
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    private FirebaseAuth mAuth;
+
 
 
 
@@ -72,12 +81,13 @@ public class MenuActivity extends AppCompatActivity
         mFirestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
         recyclerPostagem = findViewById(R.id.recyclerPostagem);
+        mAuth = FirebaseAuth.getInstance();
 
 
 
         recuperarTopico();
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -138,12 +148,13 @@ public class MenuActivity extends AppCompatActivity
     }
 
     public void prepararPostagens() {
-        
-        Postagem p = new Postagem( R.drawable.download);
+
+
+        Postagem p = new Postagem( );
+
         this.postagens.add(p);
 
-        p = new Postagem(R.drawable.download);
-        this.postagens.add(p);
+
     }
 
 
@@ -207,7 +218,8 @@ public class MenuActivity extends AppCompatActivity
 
     //Recupera e inscreve o usuario no topico escolhido
     private void recuperarTopico() {
-        DocumentReference docRef = mFirestore.collection("Documents").document("Users");
+        final String user_id = mAuth.getCurrentUser().getUid();
+        DocumentReference docRef = mFirestore.collection("Users").document(user_id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

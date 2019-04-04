@@ -88,7 +88,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
                                 userMap.put("token_id", token_id);
                                 userMap.put("curso", curso);
 
-                                mFirestore.collection("Documents").document("Users").set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                mFirestore.collection("Users").document(user_id).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(getApplicationContext(), "Conta criada com sucesso!", Toast.LENGTH_LONG).show();

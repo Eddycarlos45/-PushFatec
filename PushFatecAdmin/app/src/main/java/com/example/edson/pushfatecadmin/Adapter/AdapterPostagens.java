@@ -30,7 +30,7 @@ public class AdapterPostagens extends RecyclerView.Adapter<AdapterPostagens.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Postagem postagem = postagens.get(position);;
+        Postagem postagem = postagens.get(position);
         holder.imagem.setImageResource(postagem.getImagem());
 
 

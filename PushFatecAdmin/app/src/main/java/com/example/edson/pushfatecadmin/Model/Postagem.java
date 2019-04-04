@@ -1,5 +1,11 @@
 package com.example.edson.pushfatecadmin.Model;
 
+import android.graphics.drawable.Drawable;
+
+import com.bumptech.glide.RequestBuilder;
+
+import java.net.URL;
+
 public class Postagem {
 
 
