@@ -21,6 +21,8 @@
         <activity android:name=".Activity.SendActivity" />
         <activity android:name=".Activity.RegistroActivity" />
         <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.MensagemActivity" />
+        <activity android:name=".Activity.PostagemActivity"></activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,8 +51,7 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <activity android:name=".Activity.MensagemActivity" />
-        <activity android:name=".Activity.PostagemActivity"></activity>
+
     </application>
 
 </manifest>

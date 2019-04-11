@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,6 +48,7 @@ public class PostagemActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -56,22 +59,20 @@ public class PostagemActivity extends AppCompatActivity {
         //Definir orientação como portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        //Gerar um caminho para imagem
-        Random random = new Random();
-        caminhoImagem = "local" + random.nextInt(100000) + ".jpeg";
-
+        gerarCaminho(1000000);
         imagemview = findViewById(R.id.imageView2);
         selecionarbtn = findViewById(R.id.selecionar_imagem_btn);
         enviarbtn = findViewById(R.id.salvar_imagem_btn);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mFirestore = FirebaseFirestore.getInstance();
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         selecionarbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selecionarImagem();
+                salvarCaminho();
             }
         });
 
@@ -141,6 +142,8 @@ public class PostagemActivity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(getApplicationContext(), "Sucesso ao fazer upload da imagem", Toast.LENGTH_LONG).show();
                 recuperarUrl();
+                gerarCaminho(10000000);
+
             }
         });
     }
@@ -164,7 +167,6 @@ public class PostagemActivity extends AppCompatActivity {
 
         Map<String, String> postagens = new HashMap<>();
         postagens.put("UrlPostagem", Urldownload);
-        Toast.makeText(getApplicationContext(), Urldownload, Toast.LENGTH_SHORT).show();
 
         mFirestore.collection("Postagens").document(caminhoImagem).set(postagens)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -181,5 +183,29 @@ public class PostagemActivity extends AppCompatActivity {
         });
     }
 
+    private void salvarCaminho() {
+        Map<String,String> caminhoDownload = new HashMap<>();
 
+        mDatabase.child("postagens").child("125").setValue(caminhoImagem).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d("Mesage:","Caminho salvo");
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Erro:",e.getMessage());
+
+            }
+        });
+
+
+    }
+    //Gerar um caminho para imagem
+    public void gerarCaminho(int rand) {
+        Random random = new Random();
+        caminhoImagem = "local" + random.nextInt(rand) + ".jpeg";
+    }
 }
