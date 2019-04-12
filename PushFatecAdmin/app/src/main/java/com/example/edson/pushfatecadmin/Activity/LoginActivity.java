@@ -88,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
+                } else {
+                    validaEmail();
                 }
 
             }
@@ -100,5 +102,16 @@ public class LoginActivity extends AppCompatActivity {
         Intent menuIntent = new Intent(LoginActivity.this, MenuActivity.class);
         startActivity(menuIntent);
         finish();
+    }
+
+    private void validaEmail() {
+        if (emailedt.getText().toString().isEmpty()) {
+            emailedt.setError("Preencha com seu email");
+
+            if (senhaedt.getText().toString().isEmpty()) {
+                senhaedt.setError("Preencha com sua senha");
+            }
+        }
+
     }
 }

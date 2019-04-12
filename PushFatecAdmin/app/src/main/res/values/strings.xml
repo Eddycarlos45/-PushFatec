@@ -15,7 +15,6 @@
     <string name="bem_vindo_ao_push_fatec">Bem vindo ao Push Fatec</string>
     <string name="email">Email...</string>
     <string name="senha">Senha...</string>
-    <string name="login">Login</string>
     <string name="ainda_n_o_tem_uma_conta">Ainda não tem uma conta?</string>
     <string name="registre_se">Registre-se</string>
     <string name="nome">Nome...</string>
@@ -38,4 +37,6 @@
     <string name="Selecionar">Selecionar imagem</string>
     <string name="descricao_da_imagem">Descricão da imagem</string>
     <string name="Imagem">TODO</string>
+    <string name="login">Login</string>
+    <string name="selecione_seu_curso">Selecione seu curso</string>
 </resources>

@@ -54,7 +54,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         nomeedt = findViewById(R.id.register_name);
         registrobtn = findViewById(R.id.register_btn);
         spinner_curso = findViewById(R.id.spinner_curso);
-        confSenhaedt = findViewById(R.id.confirn_password);
+        confSenhaedt = findViewById(R.id.confirm_password);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cursos_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -74,7 +74,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
                 curso = String.valueOf(spinner_curso.getSelectedItem());
                 String confSenha = confSenhaedt.getText().toString();
 
-                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(senha) && !TextUtils.isEmpty(curso) && !TextUtils.isEmpty(confSenha) && senha.equals(confSenha) ) {
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(senha) && !TextUtils.isEmpty(curso) && !TextUtils.isEmpty(confSenha) && senha.equals(confSenha)) {
 
                     mAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -105,12 +105,28 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
 
                             }
                         }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     });
                 } else {
-                    Toast.makeText(getApplicationContext(), "Preencha todos os campos ou confira sua senha", Toast.LENGTH_LONG).show();
+                    validarCampos();
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        curso = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     private void sendToSend() {
@@ -120,13 +136,24 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        curso = parent.getItemAtPosition(position).toString();
-    }
+    private void validarCampos() {
+        if (nomeedt.getText().toString().isEmpty()) {
+            nomeedt.setError("Digite seu nome");
+        }
+        if (emailedt.getText().toString().isEmpty()) {
+            emailedt.setError("Digite seu email");
+        }
+        if (senhaedt.getText().toString().isEmpty()) {
+            senhaedt.setError("Escolha uma senha com mais de 6 caracteres");
+        }
+        if (confSenhaedt.getText().toString().isEmpty()) {
+            confSenhaedt.setError("Confirme sua senha");
+        }if(!senhaedt.getText().toString().equals(confSenhaedt.getText().toString())){
+            senhaedt.setError("Confira sua senha");
+            senhaedt.setError("Confirme sua senha");
+        }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+
 
     }
 }
