@@ -1,11 +1,14 @@
 package com.example.edson.pushfatecadmin.Adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.edson.pushfatecadmin.Model.Postagem;
 import com.example.edson.pushfatecadmin.R;
 
@@ -14,9 +17,11 @@ import java.util.List;
 public class AdapterPostagens extends RecyclerView.Adapter<AdapterPostagens.MyViewHolder> {
 
     private List<Postagem> postagens;
+    private Context context;
 
-    public AdapterPostagens(List<Postagem> listaPostagens) {
-        this.postagens = listaPostagens;
+    public AdapterPostagens(List<Postagem> postagens,Context context) {
+        this.postagens = postagens;
+        this.context = context;
     }
 
     @Override
@@ -30,8 +35,9 @@ public class AdapterPostagens extends RecyclerView.Adapter<AdapterPostagens.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Postagem postagem = postagens.get(position);
-        holder.imagem.setImageResource(postagem.getImagem());
+
+        ImageView imageView = holder.imagem;
+        Glide.with(context).load(postagens.get(position).getImagem()).into(imageView);
 
 
     }
@@ -43,14 +49,14 @@ public class AdapterPostagens extends RecyclerView.Adapter<AdapterPostagens.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
       ;
+        private View mView;
         private ImageView imagem;
-
-
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
+            mView = itemView;
 
             imagem = itemView.findViewById(R.id.imageView);
         }

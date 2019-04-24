@@ -17,16 +17,11 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="146dp"
+            android:layout_height="220dp"
             android:contentDescription="@string/todo"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_launcher_background" />
 
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
 
 
     </LinearLayout>

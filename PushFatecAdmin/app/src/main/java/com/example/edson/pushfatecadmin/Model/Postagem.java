@@ -1,29 +1,23 @@
 package com.example.edson.pushfatecadmin.Model;
 
-import android.graphics.drawable.Drawable;
-
-import com.bumptech.glide.RequestBuilder;
-
-import java.net.URL;
-
 public class Postagem {
 
 
-    private int imagem;
+    private String imagem;
 
     public Postagem() {
     }
 
-    public Postagem( int imagem) {
+    public Postagem( String imagem) {
 
         this.imagem = imagem;
     }
 
-    public int getImagem() {
+    public String getImagem() {
         return imagem;
     }
 
-    public void setImagem(int imagem) {
+    public void setImagem(String imagem) {
         this.imagem = imagem;
     }
 

@@ -72,7 +72,7 @@ public class PostagemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selecionarImagem();
-                salvarCaminho();
+
             }
         });
 
@@ -165,8 +165,8 @@ public class PostagemActivity extends AppCompatActivity {
     private void salvarUrl(String urldownload) {
 
 
-        Map<String, String> postagens = new HashMap<>();
-        postagens.put("UrlPostagem", Urldownload);
+        Map<String, Object> postagens = new HashMap<>();
+        postagens.put("imagem", Urldownload);
 
         mFirestore.collection("Postagens").document(caminhoImagem).set(postagens)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -183,26 +183,7 @@ public class PostagemActivity extends AppCompatActivity {
         });
     }
 
-    private void salvarCaminho() {
-        Map<String,String> caminhoDownload = new HashMap<>();
 
-        mDatabase.child("postagens").child("125").setValue(caminhoImagem).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.d("Mesage:","Caminho salvo");
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Erro:",e.getMessage());
-
-            }
-        });
-
-
-    }
     //Gerar um caminho para imagem
     public void gerarCaminho(int rand) {
         Random random = new Random();

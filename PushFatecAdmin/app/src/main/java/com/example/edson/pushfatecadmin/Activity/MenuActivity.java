@@ -2,12 +2,9 @@ package com.example.edson.pushfatecadmin.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,31 +18,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.example.edson.pushfatecadmin.Adapter.AdapterPostagens;
 import com.example.edson.pushfatecadmin.Model.Postagem;
 import com.example.edson.pushfatecadmin.R;
 import com.example.edson.pushfatecadmin.Util.RecyclerItemClickListener;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,15 +45,20 @@ public class MenuActivity extends AppCompatActivity
 
     private FirebaseFirestore mFirestore;
     private String topico;
-    private RecyclerView recyclerPostagem;
-    public List<Postagem> postagens = new ArrayList<>();
+    private RecyclerView recyclerPostagens;
+    public List<Postagem> postagens;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private FirebaseAuth mAuth;
+    private AdapterPostagens adapter;
 
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarTopico();
+        prepararPostagens();
+    }
 
 
     @Override
@@ -75,18 +71,25 @@ public class MenuActivity extends AppCompatActivity
         //Definir orientação como portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mFirestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        recyclerPostagem = findViewById(R.id.recyclerPostagem);
+        recyclerPostagens = findViewById(R.id.recyclerPostagem);
         mAuth = FirebaseAuth.getInstance();
+        postagens = new ArrayList<>();
+         adapter = new AdapterPostagens(postagens, this);
 
+        //Define Layout
+        recyclerPostagens.setLayoutManager( new LinearLayoutManager(this));
+        //Define Adapter
+        recyclerPostagens.setAdapter(adapter);
+        recyclerPostagens.setHasFixedSize(true);
 
-
-        recuperarTopico();
 
 
 
@@ -94,7 +97,7 @@ public class MenuActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentMensagem = new Intent(MenuActivity.this,SendActivity.class);
+                Intent intentMensagem = new Intent(MenuActivity.this, SendActivity.class);
                 startActivity(intentMensagem);
             }
         });
@@ -109,12 +112,11 @@ public class MenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
         //Evento de Click
-        recyclerPostagem.addOnItemTouchListener(
+        recyclerPostagens.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getApplicationContext(),
-                        recyclerPostagem,
+                        recyclerPostagens,
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
@@ -135,26 +137,32 @@ public class MenuActivity extends AppCompatActivity
         );
 
 
-        //Define Layout
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerPostagem.setLayoutManager(layoutManager);
-        //Define Adapter
-        this.prepararPostagens();
 
-
-        AdapterPostagens adapter = new AdapterPostagens(postagens);
-
-        recyclerPostagem.setAdapter(adapter);
     }
 
     public void prepararPostagens() {
 
+        postagens.clear();
 
-        Postagem p = new Postagem( );
+        mFirestore.collection("Postagens").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-        this.postagens.add(p);
+                for(DocumentChange doc: documentSnapshots.getDocumentChanges()){
 
+                    if(doc.getType() == DocumentChange.Type.ADDED){
 
+                        Postagem p = doc.getDocument().toObject(Postagem.class);
+                        postagens.add(p);
+
+                        adapter.notifyDataSetChanged();
+
+                    }
+
+                }
+
+            }
+        });
     }
 
 
@@ -204,7 +212,7 @@ public class MenuActivity extends AppCompatActivity
             Intent intentMensagem = new Intent(MenuActivity.this, MensagemActivity.class);
             startActivity(intentMensagem);
 
-        } else if (id == R.id.nav_postagem ) {
+        } else if (id == R.id.nav_postagem) {
             Intent intentPostagem = new Intent(MenuActivity.this, PostagemActivity.class);
             startActivity(intentPostagem);
 
@@ -239,9 +247,6 @@ public class MenuActivity extends AppCompatActivity
             }
         });
     }
-
-
-
 
 
 }
