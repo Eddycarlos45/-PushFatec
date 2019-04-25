@@ -1,55 +1,93 @@
 package com.example.edson.pushfateccliente.Activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
+import com.example.edson.pushfateccliente.Adapter.AdapterPostagens;
+import com.example.edson.pushfateccliente.Model.Postagem;
 import com.example.edson.pushfateccliente.R;
+import com.example.edson.pushfateccliente.Util.RecyclerItemClickListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseFirestore mFirestore;
     private String topico;
+    private RecyclerView recyclerPostagens;
+    public List<Postagem> postagens;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private FirebaseAuth mAuth;
+    private AdapterPostagens adapter;
+
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarTopico();
+        prepararPostagens();
+    }
+
+
+    @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        //Definir orientação como portrait
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mFirestore = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        recyclerPostagens = findViewById(R.id.recyclerPostagem);
+        mAuth = FirebaseAuth.getInstance();
+        postagens = new ArrayList<>();
+        adapter = new AdapterPostagens(postagens, this);
 
-        //Recupera e inscreve o usuario no topico escolhido
-        recuperarTopico();
+        //Define Layout
+        recyclerPostagens.setLayoutManager(new LinearLayoutManager(this));
+        //Define Adapter
+        recyclerPostagens.setAdapter(adapter);
+        recyclerPostagens.setHasFixedSize(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,7 +97,60 @@ public class MenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        //Evento de Click
+        recyclerPostagens.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getApplicationContext(),
+                        recyclerPostagens,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
+
+
     }
+
+    public void prepararPostagens() {
+
+        postagens.clear();
+
+        mFirestore.collection("Postagens").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+
+                for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+
+                    if (doc.getType() == DocumentChange.Type.ADDED) {
+
+                        Postagem p = doc.getDocument().toObject(Postagem.class);
+                        postagens.add(p);
+
+                        adapter.notifyDataSetChanged();
+
+                    }
+
+                }
+
+            }
+        });
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -100,12 +191,9 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-        if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(MenuActivity.this, MensagemActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_mensagem) {
+            Intent intentMensagem = new Intent(MenuActivity.this, MensagemActivity.class);
+            startActivity(intentMensagem);
 
         }
 
@@ -115,9 +203,9 @@ public class MenuActivity extends AppCompatActivity
     }
 
     //Recupera e inscreve o usuario no topico escolhido
-
     private void recuperarTopico() {
-        DocumentReference docRef = mFirestore.collection("Documents").document("Users");
+        final String user_id = mAuth.getCurrentUser().getUid();
+        DocumentReference docRef = mFirestore.collection("Users").document(user_id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -129,12 +217,14 @@ public class MenuActivity extends AppCompatActivity
                         FirebaseMessaging.getInstance().subscribeToTopic(topico);
 
                     } else {
-                        Log.d("------", "No such document");
+                        Log.d("----------------------", "No such document");
                     }
                 } else {
-                    Log.d("------", "get failed with ", task.getException());
+                    Log.d("++++++++++++++++++++", "get failed with ", task.getException());
                 }
             }
         });
     }
+
+
 }

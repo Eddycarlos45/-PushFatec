@@ -10,7 +10,6 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.edson.pushfateccliente.MainActivity;
 import com.example.edson.pushfateccliente.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

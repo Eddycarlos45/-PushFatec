@@ -47,6 +47,7 @@ dependencies {
 
     //Volley (Biblioteca que trabalha com conexões WEB)
     implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.support:design:26.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

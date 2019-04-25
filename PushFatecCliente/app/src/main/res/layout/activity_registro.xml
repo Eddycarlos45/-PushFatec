@@ -4,126 +4,132 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B92B27"
-    tools:context=".RegistroActivity">
+    tools:context=".Activity.RegistroActivity"
+    tools:layout_editor_absoluteY="81dp">
 
-    <TextView
-        android:id="@+id/ResgisterHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="Registre-se"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp" />
-
-
-    <EditText
-        android:id="@+id/register_name"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textlayout_nome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ResgisterHeading"
-        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="70dp">
+
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/register_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nome">
+
+        </android.support.v7.widget.AppCompatEditText>
+
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textlayout_register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textlayout_nome"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp">
+
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/register_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:inputType="textWebEmailAddress">
+
+        </android.support.v7.widget.AppCompatEditText>
+
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textlayout_senha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textlayout_register_email"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/input_background"
-        android:ems="10"
-        android:hint="Nome..."
-        android:inputType="textEmailAddress"
-        android:paddingBottom="15dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="15dp"
-        android:textSize="16sp" />
+        app:counterEnabled="true"
+        app:passwordToggleEnabled="true">
 
-    <EditText
-        android:id="@+id/register_email"
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/register_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/senha"
+            android:inputType="textPassword">
+
+        </android.support.v7.widget.AppCompatEditText>
+
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textlayout_conf_senha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_name"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textlayout_senha"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/input_background"
-        android:ems="10"
-        android:hint="Email..."
-        android:inputType="textEmailAddress"
-        android:paddingBottom="15dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="15dp"
-        android:textSize="16sp" />
+        android:layout_marginTop="10dp"
+        app:counterEnabled="true"
+        app:passwordToggleEnabled="true">
 
-    <EditText
-        android:id="@+id/register_password"
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/confirme_a_senha"
+            android:inputType="textPassword">
+
+        </android.support.v7.widget.AppCompatEditText>
+
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_curso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_email"
+        android:layout_below="@+id/textlayout_conf_senha"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/input_background"
-        android:ems="10"
-        android:hint="Senha..."
-        android:inputType="textPassword"
-        android:paddingBottom="15dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="15dp"
-        android:textSize="16sp" />
-    <Spinner
+        android:layout_marginTop="10dp"
+        android:text="@string/selecione_seu_curso" />
+
+    <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/spinner_curso"
-        android:background="@drawable/input_background"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_password"
+        android:layout_below="@id/text_curso"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:entries="@array/cursos_array"
-        android:paddingBottom="10dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="10dp"
-        android:textSize="14sp">
-    </Spinner>
+        android:layout_marginTop="10dp">
+
+    </android.support.v7.widget.AppCompatSpinner>
+
 
     <Button
         android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/spinner_curso"
-        android:layout_centerHorizontal="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/input_background"
-        android:text="Criar Conta"
-        android:textAllCaps="false"
-        android:textSize="16sp" />
-
-    <Button
-        android:id="@+id/backtologin_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="35dp"
-        android:background="@drawable/input_background"
-        android:text="Voltar ao Login"
-        android:textAllCaps="false"
-        android:textSize="16sp" />
-
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#ff0000"
+        android:text="@string/login"
+        android:textColor="#ffffff" />
 
 
 </RelativeLayout>
