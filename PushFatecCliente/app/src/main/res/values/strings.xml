@@ -1,6 +1,41 @@
 <resources>
-    <string name="app_name">PushFatecCliente</string>
+    <string name="app_name">PushFatec</string>
+    <string name="digite_a_notifica_o">Digite a Notificação</string>
+    <string name="enviar_notifica_o">Enviar Notificação</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Bem Vindo!</string>
+    <string name="nav_header_subtitle">Push Fatec</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="aguarde">Aguarde</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="navigation_drawer_open" />
-    <string name="navigation_drawer_close" />
+    <string name="bem_vindo_ao_push_fatec">Bem vindo ao Push Fatec</string>
+    <string name="email">Email...</string>
+    <string name="senha">Senha...</string>
+    <string name="ainda_n_o_tem_uma_conta">Ainda não tem uma conta?</string>
+    <string name="registre_se">Registre-se</string>
+    <string name="nome">Nome...</string>
+    <string name="criar_conta">Criar Conta</string>
+    <string name="voltar_ao_login">Voltar ao Login</string>
+    <string name="titulo">titulo</string>
+    <string name="Título">Título</string>
+    <string name="title_activity_mensagem">MensagemActivity</string>
+    <string name="TEST">TextView</string>
+    <string name="Titulo">Titulo</string>
+    <string name="horario">Horario</string>
+    <string name="autor">Autor</string>
+    <string name="mensagem">Mensagem</string>
+    <string name="confirme_a_senha">Confirme a senha</string>
+    <string name="textview">TextView</string>
+    <string name="imagem">Imagem</string>
+    <string name="Test">Text</string>
+    <string name="todo">todo</string>
+    <string name="Enviar">Enviar</string>
+    <string name="Selecionar">Selecionar imagem</string>
+    <string name="descricao_da_imagem">Descricão da imagem</string>
+    <string name="Imagem">TODO</string>
+    <string name="login">Login</string>
+    <string name="selecione_seu_curso">Selecione seu curso</string>
 </resources>
