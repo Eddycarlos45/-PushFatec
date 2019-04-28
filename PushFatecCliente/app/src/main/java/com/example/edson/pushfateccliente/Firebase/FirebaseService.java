@@ -26,9 +26,14 @@ import com.example.edson.pushfateccliente.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class FirebaseService extends FirebaseMessagingService {
 
-
+    private  String data_completa;
+    private String  hora_atual;
 
     @Override
     public void onMessageReceived(RemoteMessage notificacao) {
@@ -41,13 +46,10 @@ public class FirebaseService extends FirebaseMessagingService {
             String msg = notificacao.getData().get("mensagem");
             String titulo = notificacao.getData().get("titulo");
             String nome = notificacao.getData().get("nome");
-
-            salvarMensagem(nome,titulo,msg);
-
             String urlimagem = notificacao.getData().get("urlimagem");
 
 
-           // String mensagem = msg+ " De: "+ nome;
+            // String mensagem = msg+ " De: "+ nome;
 
             sendNotification_2(titulo,msg, urlimagem,nome);
 
@@ -176,6 +178,9 @@ public class FirebaseService extends FirebaseMessagingService {
                 intent.putExtra("titulo",titulo);
                 intent.putExtra("autor",nome);
 
+                capturarHorario();
+                salvarMensagem(nome,msg,titulo,data_completa);
+
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -226,23 +231,52 @@ public class FirebaseService extends FirebaseMessagingService {
 
 
     }
-
-    public void salvarMensagem(String autor, String titulo,String mensagem) {
+    public void salvarMensagem(String autor,String mensagem,String titulo,String data_completa) {
 
 
         SQLiteDatabase myDB = openOrCreateDatabase("mensagens.db", MODE_PRIVATE, null);
 
-        myDB.execSQL("CREATE TABLE IF NOT EXISTS mensagens (autor VARCHAR(50), mensagem VARCHAR(1000), titulo VARCHAR(100))");
+        myDB.execSQL("CREATE TABLE IF NOT EXISTS mensagens (" +
+                "idmensagem INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "autor VARCHAR(50)," +
+                "mensagem VARCHAR(1000)," +
+                "titulo VARCHAR(100)," +
+                "horario VARCHAR(30))");
+
+
 
         ContentValues row1 = new ContentValues();
+
         row1.put("autor", autor);
         row1.put("mensagem", mensagem);
         row1.put("titulo", titulo);
+        row1.put("horario", data_completa);
 
         myDB.insert("mensagens", null, row1);
 
 
+        myDB.close();
+
+
     }
+    public void capturarHorario(){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
+        SimpleDateFormat dateFormat_hora = new SimpleDateFormat("HH:mm:ss");
+
+        Date data = new Date();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(data);
+        Date data_atual = cal.getTime();
+
+        data_completa = dateFormat.format(data_atual);
+
+        hora_atual  = dateFormat_hora.format(data_atual);
+
+
+    }
+
 
 
 

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
 import com.example.edson.pushfateccliente.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         verificaUsuario();
+
     }
 
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null) {
             sendToLogin();
         }else{
+
             sendToMenu();
         }
     }

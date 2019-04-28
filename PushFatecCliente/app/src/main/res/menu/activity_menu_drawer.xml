@@ -6,16 +6,9 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_mensagem"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_message_black_24dp"
             android:title="Mensagem" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Mensagens" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
     </group>
+
 
 </menu>

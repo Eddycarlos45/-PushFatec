@@ -34,6 +34,7 @@ public class AdapterMensagens extends RecyclerView.Adapter<AdapterMensagens.MyVi
         holder.mensagem.setText(mensagem.getMensagem());
         holder.titulo.setText(mensagem.getTitulo());
         holder.autor.setText(mensagem.getAutor());
+        holder.horario.setText(mensagem.getHorario());
 
 
 
@@ -48,6 +49,7 @@ public class AdapterMensagens extends RecyclerView.Adapter<AdapterMensagens.MyVi
         TextView titulo;
         TextView autor;
         TextView mensagem;
+        TextView horario;
 
 
         public MyViewHolder(View itemView) {
@@ -57,6 +59,7 @@ public class AdapterMensagens extends RecyclerView.Adapter<AdapterMensagens.MyVi
             titulo = itemView.findViewById(R.id.text_titulo);
             autor = itemView.findViewById(R.id.text_autor);
             mensagem = itemView.findViewById(R.id.text_mensagem);
+            horario = itemView.findViewById(R.id.text_horario);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.edson.pushfateccliente.Activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -55,6 +56,8 @@ public class MenuActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+
         recuperarTopico();
         prepararPostagens();
     }

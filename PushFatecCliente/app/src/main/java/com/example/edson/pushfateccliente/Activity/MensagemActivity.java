@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
 import com.example.edson.pushfateccliente.Adapter.AdapterMensagens;
 import com.example.edson.pushfateccliente.Model.Mensagem;
 import com.example.edson.pushfateccliente.R;
@@ -36,9 +37,11 @@ public class MensagemActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
+
         recyclerView = findViewById(R.id.recyclerMensagens);
 
         //Lista de Mensagens
+
         listarMensagens();
 
         //Congigurar Adapter
@@ -103,24 +106,26 @@ public class MensagemActivity extends AppCompatActivity {
 
 
     public void listarMensagens() {
+
         SQLiteDatabase myDB = openOrCreateDatabase("mensagens.db", MODE_PRIVATE, null);
 
         Cursor myCursor = myDB.rawQuery("select * from mensagens", null);
 
         for (myCursor.moveToLast(); !myCursor.isBeforeFirst(); myCursor.moveToPrevious()) {
-            Integer id_db = myCursor.getInt(0);
+           Integer id_db =  myCursor.getInt(0);
             String autor_db = "De: " + myCursor.getString(1);
             String mensagem_db = "Mensagem: " + myCursor.getString(2);
             String titulo_db = "Título: " + myCursor.getString(3);
-            String horario_db = myCursor.getString(4);
+            String horario_db =  myCursor.getString(4);
 
-            Mensagem mensagem = new Mensagem(id_db, autor_db, mensagem_db, titulo_db,horario_db);
+            Mensagem mensagem = new Mensagem(id_db, autor_db, mensagem_db, titulo_db, horario_db);
             this.listaMensagem.add(mensagem);
 
         }
         myCursor.close();
         myDB.close();
     }
+
     public boolean removerMensagem(Integer id) {
         SQLiteDatabase myDB = openOrCreateDatabase("mensagens.db", MODE_PRIVATE, null);
 
@@ -136,7 +141,6 @@ public class MensagemActivity extends AppCompatActivity {
         return false;
 
     }
-
 
 
 }
